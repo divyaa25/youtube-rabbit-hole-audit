@@ -82,14 +82,73 @@ Outputs are saved to `visualizations/`.
 
 ---
 
-## Key Findings (Placeholder)
+## Key Findings
 
-_Update this section as analysis completes._
+### Semantic Drift: Significant Divergence at Deeper Depths
 
-- **Semantic Drift:** How much do video titles diverge semantically from the seed as depth increases?
-- **Channel Convergence:** Do recommendations funnel viewers toward a small set of dominant channels?
-- **Category Drift:** Do YouTube video categories shift toward certain categories at deeper depths?
-- **Sentiment Extremity:** Does extremity increase (higher magnitude sentiment scores) at deeper recommendation depths?
+Videos diverge rapidly from seed topics as recommendations go deeper. Measured via cosine similarity of sentence embeddings:
+
+| Topic | Depth 0 | Depth 1 | Depth 2 | Depth 3 |
+|-------|---------|---------|---------|---------|
+| **Climate** | 1.000 | 0.260 | 0.233 | 0.182 |
+| **Finance** | 1.000 | 0.550 | 0.277 | 0.161 |
+
+**Interpretation:** By depth 3, recommendations have drifted substantially from seed content (similarity drops to ~0.18–0.16). This suggests YouTube's algorithm moves viewers away from their starting topic into broader/tangential content as they follow "Up Next" chains.
+
+Example: Starting from a climate documentary, depth 3 recommendations include Egyptian history, cruise ship documentaries, and DIY home construction—topically distant from the seed.
+
+### Channel Convergence: Power Law Distribution
+
+**Graph Statistics:**
+- **Total videos crawled:** 388 across all topics
+- **Total recommendation edges:** 395
+
+**Top 10 most-appearing channels:**
+1. National Geographic (15x)
+2. Veritasium (10x)
+3. MrWhoTheBoss (8x)
+4. Netflix (7x)
+5. Vincent Chan (7x)
+6. Vox (7x)
+7. TEDx Talks (6x)
+8. USAFacts (6x)
+9. Humphrey Yang (5x)
+10. TED-Ed (5x)
+
+**Interpretation:** Recommendations show a **power-law distribution**—a small set of well-known, credible channels dominate across multiple topic areas. Counterintuitively, this suggests YouTube recommendations funnel viewers toward established educational/documentary sources (National Geographic, Veritasium, TED) rather than fringe content.
+
+### Cross-Topic Convergence: Bridging Videos
+
+**9 videos appeared across multiple topic trees**, acting as bridges between otherwise isolated recommendation chains:
+
+| Video | Topics |
+|-------|--------|
+| "_B3OlfAuqUw" | Finance, Health, Immigration, Tech (4 topics) |
+| "XRcwwZXJ8gk" | Climate, Finance, Tech (3 topics) |
+| Others | 2-3 topics each |
+
+These "crossover" videos are unusual/sensational content that appeals across different interest categories, potentially acting as "rabbit hole" pathways.
+
+### Category Drift: Diversification at Depth
+
+YouTube's category classification shifts across recommendation depths:
+
+| Category | Depth 0 | Depth 1 | Depth 2 | Depth 3 |
+|----------|---------|---------|---------|---------|
+| **Science & Tech** | 100% | 80% | 63% | 44% |
+| **People & Blogs** | 0% | 20% | 6% | 15% |
+| **Education** | 0% | 0% | 19% | 14% |
+| **News & Politics** | 0% | 0% | 6% | 7% |
+| **Entertainment** | 0% | 0% | 0% | 5% |
+
+**Interpretation:** Early recommendations stay within the "Science & Technology" category. By depth 3, the distribution diversifies—recommendations drift into "People & Blogs" (vlog-style content) and "Entertainment," which may be more sensational/clickbait oriented.
+
+### Summary
+
+- ✅ **Semantic drift is real:** Titles diverge substantially from seed topics (~0.18 similarity at depth 3)
+- ✅ **Channel convergence leans credible:** Recommendations funnel toward established educational brands, not fringe creators
+- ⚠️ **Category diversification observed:** Early depths stay focused; deeper recommendations broaden into vlogs and entertainment
+- ⚠️ **Cross-topic bridging exists:** A small number of sensational videos connect otherwise separate topic trees
 
 ---
 
