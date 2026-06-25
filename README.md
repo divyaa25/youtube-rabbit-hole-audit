@@ -1,6 +1,8 @@
 # YouTube Recommendation Audit: The Rabbit Hole Effect
 
-This project audits whether YouTube's recommendation algorithm systematically pushes viewers toward more extreme, sensationalized, or ideologically narrow content—the "rabbit hole" effect.
+I crawled 388 YouTube videos across 5 topics — tech, health,  immigration, finance, and climate — to measure how fast recommendations pull you away from what you started watching.
+
+The short answer: by 3 clicks, you're only 18-24% semantically similar to your starting point. And no matter what topic you started with, a small number of videos keep showing up at the center of every recommendation tree.
 
 ## Project Overview
 
@@ -14,6 +16,7 @@ This project audits whether YouTube's recommendation algorithm systematically pu
 5. **Report** findings for policy and academic audiences
 
 **Topics Covered:** Tech, Health, Immigration, Finance, Climate
+**Tech Stack:** Python, YouTube Data API v3, sentence-transformers, networkx, matplotlib, pandas
 
 ---
 
@@ -84,50 +87,25 @@ Outputs are saved to `visualizations/`.
 
 ## Key Findings
 
-### Semantic Drift: Significant Divergence at Deeper Depths
+### 1. Semantic drift is universal
 
-Videos diverge rapidly from seed topics as recommendations go deeper. Measured via cosine similarity of sentence embeddings:
+Every topic drifts. By depth 3, average cosine similarity to the seed drops to 0.16-0.24 regardless of starting topic.
 
-| Topic | Depth 0 | Depth 1 | Depth 2 | Depth 3 |
-|-------|---------|---------|---------|---------|
-| **Climate** | 1.000 | 0.260 | 0.233 | 0.182 |
-| **Finance** | 1.000 | 0.550 | 0.277 | 0.161 |
+![Semantic Drift](assets/semantic_drift.png)
 
-**Interpretation:** By depth 3, recommendations have drifted substantially from seed content (similarity drops to ~0.18–0.16). This suggests YouTube's algorithm moves viewers away from their starting topic into broader/tangential content as they follow "Up Next" chains.
+Climate is the outlier — it starts drifting immediately at depth 1 (0.260), suggesting YouTube struggles to keep climate content coherent from the first recommendation.
 
-Example: Starting from a climate documentary, depth 3 recommendations include Egyptian history, cruise ship documentaries, and DIY home construction—topically distant from the seed.
+### 2. The algorithm funnels everyone to the same place
 
-### Channel Convergence: Power Law Distribution
+9 videos appeared across multiple unrelated topic trees. 
+The most striking: "Is the U.S. about to make a major military mistake?" was reachable from tech, health, finance, AND immigration seeds — four completely different starting points, same destination.
 
-**Graph Statistics:**
-- **Total videos crawled:** 388 across all topics
-- **Total recommendation edges:** 395
+![Network Graph](assets/network_graph.png)
 
-**Top 10 most-appearing channels:**
-1. National Geographic (15x)
-2. Veritasium (10x)
-3. MrWhoTheBoss (8x)
-4. Netflix (7x)
-5. Vincent Chan (7x)
-6. Vox (7x)
-7. TEDx Talks (6x)
-8. USAFacts (6x)
-9. Humphrey Yang (5x)
-10. TED-Ed (5x)
+### 3. A small number of channels dominate
+National Geographic (15x), Veritasium (10x), and Vox (6x) appear repeatedly across all topics. 388 nodes, but traffic concentrates through roughly 10 channels.
 
 **Interpretation:** Recommendations show a **power-law distribution**—a small set of well-known, credible channels dominate across multiple topic areas. Counterintuitively, this suggests YouTube recommendations funnel viewers toward established educational/documentary sources (National Geographic, Veritasium, TED) rather than fringe content.
-
-### Cross-Topic Convergence: Bridging Videos
-
-**9 videos appeared across multiple topic trees**, acting as bridges between otherwise isolated recommendation chains:
-
-| Video | Topics |
-|-------|--------|
-| "_B3OlfAuqUw" | Finance, Health, Immigration, Tech (4 topics) |
-| "XRcwwZXJ8gk" | Climate, Finance, Tech (3 topics) |
-| Others | 2-3 topics each |
-
-These "crossover" videos are unusual/sensational content that appeals across different interest categories, potentially acting as "rabbit hole" pathways.
 
 ### Category Drift: Diversification at Depth
 
@@ -223,17 +201,6 @@ See `requirements.txt` for versions.
 - **Sentiment analysis** via VADER is simplistic; fine-tuned transformer models may be more accurate.
 - **Credibility signals** (view-to-subscriber ratio, engagement rate) are heuristic proxies, not ground truth.
 - The analysis is **descriptive**, not causal. Observed drift does not prove YouTube's algorithm *causes* radicalization.
-
----
-
-## Policy & Academic Context
-
-This work is relevant to:
-- **EU Digital Services Act:** Algorithmic accountability and transparency
-- **US Congressional Hearings:** Algorithmic amplification and extremism
-- **Media Studies & Computational Social Science:** Recommendation algorithm effects
-
-The final deliverable combines technical rigor with policy accessibility.
 
 ---
 
