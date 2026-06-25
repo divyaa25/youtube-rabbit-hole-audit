@@ -91,7 +91,7 @@ Outputs are saved to `visualizations/`.
 
 Every topic drifts. By depth 3, average cosine similarity to the seed drops to 0.16-0.24 regardless of starting topic.
 
-![Semantic Drift](assets/semantic_drift.png)
+![Semantic Drift](visualizations/semantic_drift.png)
 
 Climate is the outlier — it starts drifting immediately at depth 1 (0.260), suggesting YouTube struggles to keep climate content coherent from the first recommendation.
 
@@ -100,7 +100,7 @@ Climate is the outlier — it starts drifting immediately at depth 1 (0.260), su
 9 videos appeared across multiple unrelated topic trees. 
 The most striking: "Is the U.S. about to make a major military mistake?" was reachable from tech, health, finance, AND immigration seeds — four completely different starting points, same destination.
 
-![Network Graph](assets/network_graph.png)
+![Network Graph](visualizations/network_graph.png)
 
 ### 3. A small number of channels dominate
 National Geographic (15x), Veritasium (10x), and Vox (6x) appear repeatedly across all topics. 388 nodes, but traffic concentrates through roughly 10 channels.
