@@ -203,7 +203,3 @@ See `requirements.txt` for versions.
 - The analysis is **descriptive**, not causal. Observed drift does not prove YouTube's algorithm *causes* radicalization.
 
 ---
-
-## Contact & Attribution
-
-Project by Divya Chougule. For questions or feedback, check the GitHub issues.
